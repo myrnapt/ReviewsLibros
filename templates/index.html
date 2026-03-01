@@ -2,50 +2,159 @@
 {% block title %}Inicio · Mistery Reviews{% endblock %}
 
 {% block content %}
-  <h1>Reseñas de libros</h1>
+<section class="logo-section">
+  <img src="/static/logo.png" alt="">
+</section>
+<section class="card">
+  <form method="get" action="{{ url_for('search') }}" class="search-bar">
+    <input type="text" name="search_term" placeholder="Buscar por autor o título…" value="{{ search_term or '' }}">
+    <button type="submit">Buscar</button>
+  </form>
+</section>
+<section class="top10-block">
+  <h2 class="top10-title">Top 10 libros recomendados del 2026</h2>
+  <p class="top10-subtitle muted">
+    Selección basada en ranking público (Apple Books Top Paid Books, 24 feb 2026).
+  </p>
 
-  <section class="card">
-    <h2>Buscar rápido</h2>
-    <form method="get" action="{{ url_for('search') }}" class="row">
-      <input type="text" name="q" placeholder="Título o autor..." value="{{ q or '' }}">
-      <button type="submit">Buscar</button>
-    </form>
-  </section>
+  <ol class="top10-list">
+    <li>
+      <div class="top10-main">
+        <div class="top10-head">
+          <span class="top10-book">The Hard Line</span>
+          <span class="top10-meta">Mark Greaney · Thriller de acción</span>
+        </div>
+        <p class="top10-blurb">Un asesino de élite descubre que ahora es la presa: operación tras operación, la tensión sube y la cacería cambia de manos.</p>
+      </div>
+    </li>
 
-  <section>
-    <h2>Últimas reviews</h2>
+    <li>
+      <div class="top10-main">
+        <div class="top10-head">
+          <span class="top10-book">Stripped Down</span>
+          <span class="top10-meta">Bunnie Xo · Memorias</span>
+        </div>
+        <p class="top10-blurb">Historia de reinvención: ascenso, golpes, redención y romper ciclos, con tono crudo y directo.</p>
+      </div>
+    </li>
 
-    {% if reviews and reviews|length > 0 %}
-      <ul class="list">
-        {% for r in reviews %}
-          <li class="item">
-            <div class="book-card">
-              {% if r.book_image_filename %}
-                <img class="cover" src="{{ url_for('static', filename='uploads/' + r.book_image_filename) }}" alt="Portada">
-              {% else %}
-                <div class="cover placeholder">Sin imagen</div>
-              {% endif %}
+    <li>
+      <div class="top10-main">
+        <div class="top10-head">
+          <span class="top10-book">Theo of Golden</span>
+          <span class="top10-meta">Allen Levi · Ficción literaria</span>
+        </div>
+        <p class="top10-blurb">Un hombre mayor llega a un pueblo del sur y una serie de retratos despiertan misterio, comunidad y una ternura rara.</p>
+      </div>
+    </li>
 
-              <div class="book-info">
-                <div class="item-head">
-                  <a href="{{ url_for('book_detail', book_id=r.book_id) }}"><strong>{{ r.title }}</strong></a>
-                  <span class="muted">— {{ r.author }}</span>
-                </div>
-                <div class="muted">
-                  por {{ r.username }} ·
-                    {% set rating = r.rating|int %}
-                    {% for i in range(1,6) %}
-                      {% if i <= rating %}⭐{% else %}☆{% endif %}
-                    {% endfor %}
-                  · {{ r.created_at }}
-                <p class="snippet">{{ r.review_text }}</p>
-              </div>
-            </div>
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p class="muted">Aún no hay reviews publicadas.</p>
-    {% endif %}
-  </section>
+    <li>
+      <div class="top10-main">
+        <div class="top10-head">
+          <span class="top10-book">The Devil’s Bible</span>
+          <span class="top10-meta">Steve Berry · Thriller histórico</span>
+        </div>
+        <p class="top10-blurb">Cotton Malone entra en un pulso internacional por un manuscrito legendario, con secuestros, traiciones y geopolítica a fuego lento.</p>
+      </div>
+    </li>
+
+    <li>
+      <div class="top10-main">
+        <div class="top10-head">
+          <span class="top10-book">Nobody’s Girl</span>
+          <span class="top10-meta">Virginia Roberts Giuffre · Memorias</span>
+        </div>
+        <p class="top10-blurb">Testimonio de supervivencia y búsqueda de justicia frente a abuso y poder institucional.</p>
+      </div>
+    </li>
+
+    <li>
+      <div class="top10-main">
+        <div class="top10-head">
+          <span class="top10-book">Cold Zero</span>
+          <span class="top10-meta">Brad Thor · Thriller</span>
+        </div>
+        <p class="top10-blurb">Un avión de última generación cae en el Ártico tras un sabotaje: supervivencia, persecución y una carrera para evitar una escalada global.</p>
+      </div>
+    </li>
+
+    <li>
+      <div class="top10-main">
+        <div class="top10-head">
+          <span class="top10-book">The Correspondent</span>
+          <span class="top10-meta">Virginia Evans · Ficción epistolar</span>
+        </div>
+        <p class="top10-blurb">Una vida contada a través de cartas y correos: intimidad, memoria, arrepentimientos y pequeños actos de bondad.</p>
+      </div>
+    </li>
+
+    <li>
+      <div class="top10-main">
+        <div class="top10-head">
+          <span class="top10-book">Cross and Sampson</span>
+          <span class="top10-meta">Brian Sitts & James Patterson · Thriller policial</span>
+        </div>
+        <p class="top10-blurb">Dos casos graves, dos ciudades: Cross busca a una persona desaparecida muy cercana; Sampson investiga un ataque con explosivos.</p>
+      </div>
+    </li>
+
+    <li>
+      <div class="top10-main">
+        <div class="top10-head">
+          <span class="top10-book">The Astral Library</span>
+          <span class="top10-meta">Kate Quinn · Ficción / “biblioteca secreta”</span>
+        </div>
+        <p class="top10-blurb">Alix, agotade y sin salida, encuentra refugio en una biblioteca imposible que abre puertas a otras vidas (y a decisiones reales).</p>
+      </div>
+    </li>
+
+    <li>
+      <div class="top10-main">
+        <div class="top10-head">
+          <span class="top10-book">Heated Rivalry</span>
+          <span class="top10-meta">Rachel Reid · Romance deportivo</span>
+        </div>
+        <p class="top10-blurb">Rivales del hockey, relación secreta y química explosiva durante años: tensión, humor y romance sin postureo.</p>
+      </div>
+    </li>
+  </ol>
+</section>
+<br>
+<hr>
+<section>
+  <h2>Últimas reviews</h2>
+
+  {% if reviews and reviews|length > 0 %}
+  <ul class="list">
+    {% for r in reviews %}
+    <li class="item">
+      <div class="book-card review-card">
+        {% if r.book_image_filename %}
+        <img class="cover" src="{{ url_for('static', filename='uploads/' + r.book_image_filename) }}" alt="Portada">
+        {% else %}
+        <div class="cover placeholder">Sin imagen</div>
+        {% endif %}
+
+        <div class="book-info">
+          <div class="item-head">
+            <a href="{{ url_for('book_detail', book_id=r.book_id) }}"><strong>{{ r.title }}</strong></a>
+            <span class="muted">— {{ r.author }}</span>
+          </div>
+
+          <div class="muted">
+            por {{ r.username }} ·
+            {% set rating = r.rating|int %}
+            {% for i in range(1,6) %}
+            {% if i <= rating %}⭐{% else %}☆{% endif %} {% endfor %} · {{ r.created_at }} </div>
+
+              <p class="snippet">{{ r.review_text }}</p>
+          </div>
+        </div>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="muted">Aún no hay reviews publicadas.</p>
+  {% endif %}
+</section>
 {% endblock %}

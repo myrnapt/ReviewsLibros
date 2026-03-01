@@ -1,21 +1,23 @@
-/* ===== Paleta ===== */
+/* =========================
+   Paleta + variables base
+   ========================= */
 :root {
   --bg: #f4f1ea;           /* beige claro */
   --card: #ffffff;         /* blanco cálido */
-  --primary: #4f6f52;      /* verde desaturado */
-  --primary-dark: #3a5240; 
-  --accent: #8b6f47;       /* marrón tierra */
+  --primary: #4f6f52;      /* verde */
+  --primary-dark: #3a5240;
+  --accent: #8b6f47;       /* marrón */
   --text: #2f2f2f;
   --muted: #6f6f6f;
   --border: #ddd7cc;
   --error: #b04a4a;
   --success: #4a7a5c;
+
+  --radius: 12px;
 }
 
 /* ===== Reset básico ===== */
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -34,12 +36,11 @@ body {
 
 .topbar {
   background-color: var(--primary);
-  padding: 0.8rem 0;
 }
 
 .topbar .container {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;   /* en vez de space-between */
   align-items: center;
 }
 
@@ -50,16 +51,19 @@ body {
   font-size: 1.2rem;
 }
 
+.nav {
+  display: flex;
+  align-items: center;   /* centra verticalmente */
+  gap: 1rem;
+}
+
 .nav a {
   color: white;
   text-decoration: none;
-  margin-left: 1rem;
   font-size: 0.95rem;
 }
 
-.nav a:hover {
-  text-decoration: underline;
-}
+.nav a:hover { text-decoration: underline; }
 
 .footer {
   border-top: 1px solid var(--border);
@@ -81,25 +85,19 @@ h1, h2 {
   color: var(--muted);
 }
 
-.muted {
-  color: var(--muted);
-  font-size: 0.9rem;
-}
-
-.small {
-  font-size: 0.85rem;
-}
+.muted { color: var(--muted); }
+.small { font-size: 0.85rem; }
 
 /* ===== Cards ===== */
 .card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius);
   padding: 1.2rem;
   margin: 1.2rem 0;
 }
 
-/* ===== Formularios ===== */
+/* ===== Formularios (base) ===== */
 .form {
   display: flex;
   flex-direction: column;
@@ -107,45 +105,52 @@ h1, h2 {
 
 label {
   margin-top: 0.8rem;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.25rem;
   font-weight: bold;
   color: var(--primary-dark);
 }
 
 input,
 textarea,
+select,
 button {
   font-family: inherit;
   font-size: 0.95rem;
-  padding: 0.6rem;
-  border-radius: 4px;
+  border-radius: 8px;
 }
 
 input,
-textarea {
+textarea,
+select {
   border: 1px solid var(--border);
   background-color: #faf8f4;
+  padding: 0.65rem 0.75rem;
 }
 
 input:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
   outline: none;
   border-color: var(--primary);
   background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(79,111,82,.12);
 }
 
+textarea { resize: vertical; }
+
+/* Botón base */
 button {
   margin-top: 1rem;
   border: none;
   background-color: var(--primary);
   color: white;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  padding: 0.65rem 0.9rem;
+  transition: background-color 0.2s ease, filter 0.2s ease;
 }
 
-button:hover {
-  background-color: var(--primary-dark);
-}
+button:hover { background-color: var(--primary-dark); }
+button:active { transform: translateY(1px); }
 
 /* ===== Botones tipo enlace ===== */
 .button {
@@ -154,41 +159,16 @@ button:hover {
   background-color: var(--accent);
   color: white;
   text-decoration: none;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 0.9rem;
 }
 
-.button:hover {
-  background-color: #725937;
-}
-
-/* ===== Listas ===== */
-.list {
-  list-style: none;
-  padding: 0;
-}
-
-.item {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-}
-
-.item-head {
-  font-size: 1rem;
-  margin-bottom: 0.3rem;
-}
-
-.snippet {
-  margin-top: 0.5rem;
-}
+.button:hover { filter: brightness(0.95); }
 
 /* ===== Alertas ===== */
 .alert {
   padding: 0.8rem;
-  border-radius: 4px;
+  border-radius: 8px;
   margin-bottom: 1rem;
   font-size: 0.9rem;
 }
@@ -205,32 +185,166 @@ button:hover {
   border: 1px solid #e4c7c7;
 }
 
-/* ===== Filas (buscador) ===== */
-.row {
-  display: flex;
-  gap: 0.5rem;
+/* ===== Listas ===== */
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 14px;
 }
 
-.row input {
+.item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  margin: 0;
+}
+
+.item-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+
+.snippet { margin: 10px 0 0; }
+
+/* =========================
+   Buscador (input + botón)
+   Usa class="row row-search"
+   ========================= */
+/* ===== Buscador ancho completo ===== */
+/* =========================
+   Search bar editorial grande
+   ========================= */
+.search-bar{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin: 0;
+}
+
+.search-bar input[type="text"]{
   flex: 1;
+  width: 100%;
+  height: 56px;
+  padding: 0 18px;
+  font-size: 1.05rem;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: #faf8f4;
 }
 
-.book-card {
+.search-bar input[type="text"]::placeholder{
+  color: var(--muted);
+}
+
+.search-bar input[type="text"]:focus{
+  border-color: var(--primary);
+  background: #fff;
+  box-shadow: 0 0 0 5px rgba(79,111,82,.14);
+}
+
+.search-bar button{
+  height: 56px;
+  padding: 0 20px;
+  margin-top: 0;
+  border-radius: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+@media (max-width: 700px){
+  .search-bar{
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .search-bar button{
+    width: 100%;
+  }
+}
+
+/* =========================
+   Formulario nueva review
+   ========================= */
+form.card.form{
+  padding: 1.2rem;
+}
+
+form.card.form fieldset{
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+#bookSelect{
+  width: 100%;
+}
+
+/* Dos columnas (Año / Género)
+   Usa: <div class="row-2col">...</div>
+*/
+.row-2col{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* File input */
+form.card.form input[type="file"]{
+  width: 100%;
+  border: 1px dashed rgba(0,0,0,.22);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fff;
+}
+
+/* Separador */
+.hr{
+  border: 0;
+  border-top: 1px solid var(--border);
+  margin: 8px 0 2px;
+}
+
+/* Botón submit del form (alineado derecha) */
+form.card.form button[type="submit"]{
+  justify-self: end;
+  margin-top: 6px;
+}
+
+/* mode none */
+form.card.form fieldset[disabled]{ opacity: .65; }
+
+/* =========================
+   Cards de libro / review
+   ========================= */
+
+/* Contenedor genérico: portada + texto */
+.book-card{
   display: flex;
-  gap: 1rem;
+  gap: 14px;
   align-items: flex-start;
 }
 
-.cover {
-  width: 90px;
-  height: 130px;
-  border-radius: 6px;
+/* Portada base (tamaño libro) */
+.cover{
+  width: 110px;
+  height: 160px;
+  border-radius: 10px;
   border: 1px solid var(--border);
   background: #faf8f4;
   object-fit: cover;
+  flex: 0 0 auto;
 }
 
-.cover.placeholder {
+/* Placeholder */
+.cover.placeholder{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -240,7 +354,144 @@ button:hover {
   padding: 0.5rem;
 }
 
-.book-info {
+.book-info{
   flex: 1;
   min-width: 0;
+}
+
+/* Variante: review-card (más grande en index/perfil) */
+.review-card .cover{
+  width: 140px;
+  height: 200px;
+}
+
+/* Acciones (perfil) */
+.review-actions{
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.review-actions button{
+  margin-top: 0;
+  background: #fff;
+  color: var(--primary-dark);
+  border: 1px solid var(--border);
+}
+
+.review-actions button:hover{
+  background: #f7f4ee;
+}
+
+/* =========================
+   TOP 10 (editorial, sin bordes)
+   ========================= */
+
+.top10-block{
+  margin-top: 14px;
+}
+
+.top10-title{
+  margin: 18px 0 4px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: .02em;
+}
+
+.top10-subtitle{
+  margin: 0 0 10px;
+}
+
+/* “Papel” suave: sin borde, con sombra muy ligera */
+.top10-list{
+  counter-reset: item;
+  list-style: none;
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.55);
+  box-shadow: 0 10px 30px rgba(0,0,0,.06);
+}
+
+/* Fila */
+.top10-list li{
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 12px;
+  padding: 12px 6px;
+  align-items: start;
+}
+
+/* Separadores suaves (no “bordes de card”) */
+.top10-list li + li{
+  border-top: 1px solid rgba(221,215,204,.65);
+}
+
+/* Número como “badge” editorial */
+.top10-list li::before{
+  counter-increment: item;
+  content: counter(item);
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  color: #fff;
+  background: var(--primary);
+  margin-top: 2px;
+}
+
+.top10-head{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: baseline;
+  line-height: 1.2;
+}
+
+.top10-book{
+  font-weight: 800;
+  color: var(--primary-dark);
+}
+
+.top10-meta{
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.top10-blurb{
+  margin: 8px 0 0;
+  color: rgba(0,0,0,.75);
+  font-size: 0.95rem;
+}
+
+/* Hover muy sutil */
+.top10-list li:hover{
+  background: rgba(255,255,255,.28);
+  border-radius: 12px;
+}
+
+/* Mobile */
+@media (max-width: 640px){
+  .top10-list li{
+    grid-template-columns: 34px 1fr;
+    padding: 10px 4px;
+  }
+  .top10-list li::before{
+    width: 28px;
+    height: 28px;
+    border-radius: 9px;
+    font-size: .9rem;
+  }
+}
+
+.logo-section {
+  text-align: center;   /* centra contenido inline */
+}
+
+.logo-section img {
+  width: 500px;
+  height: auto;
+  display: inline-block;  /* importante */
 }

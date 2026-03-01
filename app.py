@@ -32,7 +32,6 @@ def index():
     reviews = db.get_latest_reviews(10)
     return render_template("index.html", current_user=current_user, reviews=reviews, q=None)
 
-
 @app.route("/search")
 def search():
     current_user = get_current_user()
@@ -41,11 +40,17 @@ def search():
     if search_term:
         books = db.search_books(search_term)
     else:
-        # Sin búsqueda: listar TODO por autor (A-Z)
-        books = db.list_books_ordered_by_author()
+        books = db.list_books_ordered_by_title()
+        for b in books:
+            title = (b.get("title") or "").strip()
+            b["first_letter"] = (title[0].upper() if title else "#")
 
-    return render_template("search.html", current_user=current_user, search_term=search_term, books=books)
-
+    return render_template(
+        "search.html",
+        current_user=current_user,
+        search_term=search_term,
+        books=books
+    )
 
 @app.route("/book/<int:book_id>")
 def book_detail(book_id):
@@ -60,21 +65,34 @@ def book_detail(book_id):
 @app.route("/register", methods=["GET", "POST"])
 def register():
     current_user = get_current_user()
-    if request.method == "GET":
-        return render_template("register.html", current_user=current_user)
 
-    username = request.form.get("username", "").strip()
-    password = request.form.get("password", "")
+    if request.method == "POST":
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "").strip()
 
-    if not username or not password:
-        return render_template("register.html", current_user=current_user, error="Faltan datos.")
+        if not username or not password:
+            return render_template(
+                "register.html",
+                error="Todos los campos son obligatorios.",
+                current_user=current_user
+            )
 
-    ok = db.create_user(username, password)
-    if not ok:
-        return render_template("register.html", current_user=current_user, error="Ese username ya existe.")
+        # Crear usuario en BD
+        user_id = db.create_user(username, password)
 
-    return redirect(url_for("login"))
+        if not user_id:
+            return render_template(
+                "register.html",
+                error="El usuario ya existe.",
+                current_user=current_user
+            )
 
+        session["user_id"] = user_id
+        session["username"] = username
+
+        return redirect(url_for("profile"))
+
+    return render_template("register.html", current_user=current_user)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -118,10 +136,8 @@ def new_review():
     if not current_user:
         return redirect(url_for("login"))
 
-    # Desplegable ordenado por título
     all_books = db.list_books_ordered_by_title()
 
-    # GET: decidir modo (none / existing / new)
     if request.method == "GET":
         book_id_raw = request.args.get("book_id", "").strip()
         new_flag = request.args.get("new", "").strip()
@@ -146,7 +162,6 @@ def new_review():
             mode=mode,
         )
 
-    # POST: crear review (igual que antes)
     book_id_raw = request.form.get("book_id", "").strip()
     rating_raw = request.form.get("rating", "").strip()
     review_text = request.form.get("review_text", "").strip()
@@ -178,8 +193,6 @@ def new_review():
             error="Rating debe ser entre 1 y 5.",
         )
 
-    # OJO: para “primera imagen se queda”, lo ideal es no guardar archivo si no hace falta.
-    # Para no complicar, dejamos como lo tienes (funciona), pero puede dejar archivos sin usar.
     image_file = request.files.get("image")
     image_filename = save_uploaded_image(image_file)
 

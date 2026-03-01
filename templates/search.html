@@ -1,51 +1,60 @@
 {% extends "base.html" %}
-{% block title %}Buscar libros · Mistery Reviews{% endblock %}
+{% block title %}Buscar libros · Little Bookshelf{% endblock %}
 
 {% block content %}
   <h1>Buscar libros</h1>
 
-  <form method="get" action="{{ url_for('search') }}" class="row">
-    <input type="text" name="search_term" placeholder="Título o autor..." value="{{ q or '' }}">
-    <button type="submit">Buscar</button>
-  </form>
+  <section class="card">
+    <form method="get" action="{{ url_for('search') }}" class="search-bar">
+      <input type="text" name="search_term" placeholder="Buscar por autor o título…" value="{{ search_term or '' }}">
+      <button type="submit">Buscar</button>
+    </form>
+  </section>
 
-  {% if q %}
-    <h2>Resultados para “{{ q }}”</h2>
+  {% if search_term %}
+    <section class="card">
+      <h2>Resultados para “{{ search_term }}”</h2>
+
+      {% if books and books|length > 0 %}
+        <ul class="list">
+          {% for b in books %}
+            <li class="item">
+              <div class="book-card">
+                {% if b.image_filename %}
+                  <img class="cover" src="{{ url_for('static', filename='uploads/' + b.image_filename) }}" alt="Portada">
+                {% else %}
+                  <div class="cover placeholder">Sin imagen</div>
+                {% endif %}
+
+                <div class="book-info">
+                  <div class="item-head">
+                    <a href="{{ url_for('book_detail', book_id=b.id) }}"><strong>{{ b.title }}</strong></a>
+                    <span class="muted">— {{ b.author }}</span>
+                  </div>
+                  {% if b.year %}<div class="muted small">{{ b.year }}{% if b.genre %} · {{ b.genre }}{% endif %}</div>{% endif %}
+                  {% if b.synopsis %}<p class="snippet">{{ b.synopsis }}</p>{% endif %}
+                </div>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="muted">No hay resultados.</p>
+      {% endif %}
+    </section>
+
   {% else %}
-    <h2>Libros indexados (ordenados por autor)</h2>
-  {% endif %}
+    <section class="card">
+      <h2>Todos los libros (A–Z)</h2>
 
-  {% if books and books|length > 0 %}
-    <ul class="list">
-      {% for b in books %}
-        <li class="item">
-          <div class="book-card">
-            {% if b.image_filename %}
-              <img class="cover" src="{{ url_for('static', filename='uploads/' + b.image_filename) }}" alt="Portada">
-            {% else %}
-              <div class="cover placeholder">Sin imagen</div>
-            {% endif %}
-
-            <div class="book-info">
-              <h3 class="item-head">
-                <a href="{{ url_for('book_detail', book_id=b.id) }}"><strong>{{ b.title }}</strong></a>
-              </h3>
-
-              <p class="muted">
-                {{ b.author }}
-                {% if b.year %} · {{ b.year }}{% endif %}
-                {% if b.genre %} · {{ b.genre }}{% endif %}
-              </p>
-
-              {% if b.synopsis %}
-                <p>{{ b.synopsis[:160] }}{% if b.synopsis|length > 160 %}...{% endif %}</p>
-              {% endif %}
-            </div>
-          </div>
-        </li>
+      {% for group in books | groupby("first_letter") %}
+        <h3 class="az-letter">{{ group.grouper }}</h3>
+        <ul class="az-list">
+          {% for b in group.list %}
+            <li><a href="{{ url_for('book_detail', book_id=b.id) }}">{{ b.title }}</a></li>
+          {% endfor %}
+        </ul>
       {% endfor %}
-    </ul>
-  {% else %}
-    <p class="muted">No hay libros para mostrar.</p>
+    </section>
   {% endif %}
 {% endblock %}

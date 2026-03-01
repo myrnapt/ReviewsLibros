@@ -3,27 +3,31 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Mistery Reviews{% endblock %}</title>
+  <title>{% block title %}Little Bookshelf{% endblock %}</title>
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
   <header class="topbar">
     <div class="container">
-      <a class="brand" href="{{ url_for('index') }}"> 📖 MY LITTLE BOOKSHELF 📖 </a>
+<nav class="nav">
 
-      <nav class="nav">
-        <a href="{{ url_for('search') }}">Buscar libros</a>
-        <a href="{{ url_for('about') }}">About</a>
+  {% if request.endpoint != 'index' %}
+    <a href="{{ url_for('index') }}">HOME</a>
+  {% endif %}
 
-        {% if current_user %}
-          <a href="{{ url_for('new_review') }}">Nueva review</a>
-          <a href="{{ url_for('profile') }}">Mi perfil</a>
-          <a class="muted" href="{{ url_for('logout') }}">Logout</a>
-        {% else %}
-          <a href="{{ url_for('login') }}">Login</a>
-          <a href="{{ url_for('register') }}">Registro</a>
-        {% endif %}
-      </nav>
+  <a href="{{ url_for('search') }}">BUSCAR LIBROS</a>
+  <a href="{{ url_for('about') }}">SOBRE MI</a>
+
+  {% if current_user %}
+    <a href="{{ url_for('new_review') }}">CREAR REVIEW</a>
+    <a href="{{ url_for('profile') }}">MI PERFIL</a>
+    <a class="muted" href="{{ url_for('logout') }}">LOGOUT</a>
+  {% else %}
+    <a href="{{ url_for('login') }}">INICIAR SESION</a>
+    <a href="{{ url_for('register') }}">REGISTRARSE</a>
+  {% endif %}
+
+</nav>
     </div>
   </header>
 

@@ -5,7 +5,7 @@
   <h1>Nueva review</h1>
 
   <section class="card">
-    <label>Libro</label>
+    <label for="bookSelect">Libro</label>
 
     <select id="bookSelect">
       <option value="none" {% if mode == "none" %}selected{% endif %} disabled>
@@ -38,15 +38,13 @@
         return;
       }
 
-      // libro existente
       window.location = "{{ url_for('new_review') }}?book_id=" + v;
     });
   </script>
 
   <form method="post" action="{{ url_for('new_review') }}" enctype="multipart/form-data" class="card form">
 
-    {# Estado NONE: todo desactivado #}
-    <fieldset {% if mode == "none" %}disabled{% endif %} style="border:0;padding:0;margin:0;">
+    <fieldset {% if mode == "none" %}disabled{% endif %}>
       {# ------- CAMPOS DEL LIBRO ------- #}
       {% if mode == "existing" and selected_book %}
         <input type="hidden" name="book_id" value="{{ selected_book.id }}">
@@ -60,18 +58,17 @@
         <label>Sinopsis</label>
         <textarea rows="4" readonly>{{ selected_book.synopsis or "" }}</textarea>
 
-        <div class="row">
-          <div style="flex:1">
+        <div class="row-2col">
+          <div>
             <label>Año</label>
             <input type="text" value="{{ selected_book.year or '' }}" readonly>
           </div>
-          <div style="flex:1">
+          <div>
             <label>Género</label>
             <input type="text" value="{{ selected_book.genre or '' }}" readonly>
           </div>
         </div>
 
-        {# Imagen: solo tiene sentido si el libro no tiene #}
         {% if not selected_book.image_filename %}
           <label>Imagen (opcional, solo si el libro no tiene)</label>
           <input type="file" name="image" accept="image/*">
@@ -96,11 +93,11 @@
         <textarea name="synopsis" rows="4" maxlength="5000"></textarea>
 
         <div class="row">
-          <div style="flex:1">
+          <div>
             <label>Año</label>
             <input type="number" name="year" min="0" max="2100">
           </div>
-          <div style="flex:1">
+          <div>
             <label>Género</label>
             <input type="text" name="genre" maxlength="100">
           </div>
@@ -110,7 +107,7 @@
         <input type="file" name="image" accept="image/*">
       {% endif %}
 
-      <hr style="border:0;border-top:1px solid var(--border);margin:1rem 0;">
+      <hr class="hr">
 
       {# ------- CAMPOS DE LA REVIEW ------- #}
       <label>Puntuación (1 a 5)</label>

@@ -91,18 +91,17 @@ INSERT INTO users (username, password) VALUES
 -- LIBROS (10)
 -- ============================
 
-INSERT INTO books (title, author, synopsis, year, genre) VALUES
-('1984','George Orwell','Distopía sobre vigilancia masiva, manipulación del lenguaje y control social absoluto.',1949,'Distopía'),
-('Cien años de soledad','Gabriel García Márquez','Saga familiar ambientada en Macondo donde el tiempo y la memoria se mezclan.',1967,'Realismo mágico'),
-('El señor de los anillos','J. R. R. Tolkien','Viaje épico para destruir un anillo que concentra el poder absoluto.',1954,'Fantasía'),
-('Un mundo feliz','Aldous Huxley','Sociedad futurista donde la estabilidad se mantiene mediante el placer y el consumo.',1932,'Distopía'),
-('La chica del tren','Paula Hawkins','Thriller psicológico sobre memoria, obsesión y desapariciones.',2015,'Thriller'),
-('El nombre de la rosa','Umberto Eco','Misterio medieval ambientado en una abadía con asesinatos en serie.',1980,'Misterio'),
-('Harry Potter y la piedra filosofal','J. K. Rowling','Inicio de una saga mágica sobre amistad, identidad y descubrimiento.',1997,'Fantasía'),
-('El hobbit','J. R. R. Tolkien','Aventura fantástica sobre un viaje inesperado lleno de criaturas y peligros.',1937,'Fantasía'),
-('El cuento de la criada','Margaret Atwood','Distopía sobre control del cuerpo femenino en una teocracia totalitaria.',1985,'Distopía'),
-('El gran Gatsby','F. Scott Fitzgerald','Retrato de ambición, lujo y decadencia en los años veinte estadounidenses.',1925,'Clásico');
-
+INSERT INTO books (title, author, synopsis, year, genre, image_filename) VALUES
+('1984','George Orwell','Distopía sobre vigilancia masiva, manipulación del lenguaje y control social absoluto.',1949,'Distopía','1984.jpg'),
+('Cien años de soledad','Gabriel García Márquez','Saga familiar ambientada en Macondo donde el tiempo y la memoria se mezclan.',1967,'Realismo mágico','cien_anos.jpg'),
+('El señor de los anillos','J. R. R. Tolkien','Viaje épico para destruir un anillo que concentra el poder absoluto.',1954,'Fantasía','senor_anillos.jpg'),
+('Un mundo feliz','Aldous Huxley','Sociedad futurista donde la estabilidad se mantiene mediante el placer y el consumo.',1932,'Distopía','un_mundo_feliz.jpg'),
+('La chica del tren','Paula Hawkins','Thriller psicológico sobre memoria, obsesión y desapariciones.',2015,'Thriller','chica_tren.jpg'),
+('El nombre de la rosa','Umberto Eco','Misterio medieval ambientado en una abadía con asesinatos en serie.',1980,'Misterio','nombre_rosa.jpg'),
+('Harry Potter y la piedra filosofal','J. K. Rowling','Inicio de una saga mágica sobre amistad, identidad y descubrimiento.',1997,'Fantasía','hp1.jpg'),
+('El hobbit','J. R. R. Tolkien','Aventura fantástica sobre un viaje inesperado lleno de criaturas y peligros.',1937,'Fantasía','hobbit.jpg'),
+('El cuento de la criada','Margaret Atwood','Distopía sobre control del cuerpo femenino en una teocracia totalitaria.',1985,'Distopía','criada.jpg'),
+('El gran Gatsby','F. Scott Fitzgerald','Retrato de ambición, lujo y decadencia en los años veinte estadounidenses.',1925,'Clásico','gatsby.jpg');
 -- ============================
 -- REVIEWS
 -- ============================
@@ -173,3 +172,4 @@ INSERT INTO reviews (user_id, book_id, rating, review_text) VALUES
 'Entretenido, aunque predecible en algunos puntos.'),
 ((SELECT id FROM users WHERE username='bruno'), (SELECT id FROM books WHERE title='La chica del tren'), 4,
 'Buena construcción del suspense.');
+
