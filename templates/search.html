@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Buscar libros · Mistery Reviews{% endblock %}
+
+{% block content %}
+  <h1>Buscar libros</h1>
+
+  <form method="get" action="{{ url_for('search') }}" class="row">
+    <input type="text" name="search_term" placeholder="Título o autor..." value="{{ q or '' }}">
+    <button type="submit">Buscar</button>
+  </form>
+
+  {% if q %}
+    <h2>Resultados para “{{ q }}”</h2>
+  {% else %}
+    <h2>Libros indexados (ordenados por autor)</h2>
+  {% endif %}
+
+  {% if books and books|length > 0 %}
+    <ul class="list">
+      {% for b in books %}
+        <li class="item">
+          <div class="book-card">
+            {% if b.image_filename %}
+              <img class="cover" src="{{ url_for('static', filename='uploads/' + b.image_filename) }}" alt="Portada">
+            {% else %}
+              <div class="cover placeholder">Sin imagen</div>
+            {% endif %}
+
+            <div class="book-info">
+              <h3 class="item-head">
+                <a href="{{ url_for('book_detail', book_id=b.id) }}"><strong>{{ b.title }}</strong></a>
+              </h3>
+
+              <p class="muted">
+                {{ b.author }}
+                {% if b.year %} · {{ b.year }}{% endif %}
+                {% if b.genre %} · {{ b.genre }}{% endif %}
+              </p>
+
+              {% if b.synopsis %}
+                <p>{{ b.synopsis[:160] }}{% if b.synopsis|length > 160 %}...{% endif %}</p>
+              {% endif %}
+            </div>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="muted">No hay libros para mostrar.</p>
+  {% endif %}
+{% endblock %}

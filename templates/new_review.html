@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block title %}Nueva review · Mistery Reviews{% endblock %}
+
+{% block content %}
+  <h1>Nueva review</h1>
+
+  <section class="card">
+    <label>Libro</label>
+
+    <select id="bookSelect">
+      <option value="none" {% if mode == "none" %}selected{% endif %} disabled>
+        — Selecciona un libro —
+      </option>
+
+      <option value="new" {% if mode == "new" %}selected{% endif %}>
+        ➕ Crear nuevo libro
+      </option>
+
+      {% for b in books %}
+        <option value="{{ b.id }}" {% if mode == "existing" and selected_book_id == b.id %}selected{% endif %}>
+          {{ b.title }} — {{ b.author }}
+        </option>
+      {% endfor %}
+    </select>
+
+    <p class="muted small">
+      Selecciona un libro existente o “Crear nuevo libro” para desbloquear el formulario.
+    </p>
+  </section>
+
+  <script>
+    const sel = document.getElementById("bookSelect");
+    sel.addEventListener("change", () => {
+      const v = sel.value;
+
+      if (v === "new") {
+        window.location = "{{ url_for('new_review') }}?new=1";
+        return;
+      }
+
+      // libro existente
+      window.location = "{{ url_for('new_review') }}?book_id=" + v;
+    });
+  </script>
+
+  <form method="post" action="{{ url_for('new_review') }}" enctype="multipart/form-data" class="card form">
+
+    {# Estado NONE: todo desactivado #}
+    <fieldset {% if mode == "none" %}disabled{% endif %} style="border:0;padding:0;margin:0;">
+      {# ------- CAMPOS DEL LIBRO ------- #}
+      {% if mode == "existing" and selected_book %}
+        <input type="hidden" name="book_id" value="{{ selected_book.id }}">
+
+        <label>Título</label>
+        <input type="text" value="{{ selected_book.title }}" readonly>
+
+        <label>Autor</label>
+        <input type="text" value="{{ selected_book.author }}" readonly>
+
+        <label>Sinopsis</label>
+        <textarea rows="4" readonly>{{ selected_book.synopsis or "" }}</textarea>
+
+        <div class="row">
+          <div style="flex:1">
+            <label>Año</label>
+            <input type="text" value="{{ selected_book.year or '' }}" readonly>
+          </div>
+          <div style="flex:1">
+            <label>Género</label>
+            <input type="text" value="{{ selected_book.genre or '' }}" readonly>
+          </div>
+        </div>
+
+        {# Imagen: solo tiene sentido si el libro no tiene #}
+        {% if not selected_book.image_filename %}
+          <label>Imagen (opcional, solo si el libro no tiene)</label>
+          <input type="file" name="image" accept="image/*">
+        {% endif %}
+
+        {% if selected_book.image_filename %}
+          <div class="book-card">
+            <img class="cover" src="{{ url_for('static', filename='uploads/' + selected_book.image_filename) }}" alt="Portada">
+          </div>
+        {% endif %}
+
+      {% elif mode == "new" %}
+        <input type="hidden" name="book_id" value="">
+
+        <label>Título</label>
+        <input type="text" name="title" required maxlength="200">
+
+        <label>Autor</label>
+        <input type="text" name="author" required maxlength="200">
+
+        <label>Sinopsis</label>
+        <textarea name="synopsis" rows="4" maxlength="5000"></textarea>
+
+        <div class="row">
+          <div style="flex:1">
+            <label>Año</label>
+            <input type="number" name="year" min="0" max="2100">
+          </div>
+          <div style="flex:1">
+            <label>Género</label>
+            <input type="text" name="genre" maxlength="100">
+          </div>
+        </div>
+
+        <label>Imagen (opcional)</label>
+        <input type="file" name="image" accept="image/*">
+      {% endif %}
+
+      <hr style="border:0;border-top:1px solid var(--border);margin:1rem 0;">
+
+      {# ------- CAMPOS DE LA REVIEW ------- #}
+      <label>Puntuación (1 a 5)</label>
+      <input type="number" name="rating" min="1" max="5" value="5" required>
+
+      <label>Review</label>
+      <textarea name="review_text" rows="6" required maxlength="5000"></textarea>
+
+      <button type="submit">Publicar review</button>
+    </fieldset>
+
+    {% if mode == "none" %}
+      <p class="muted small" style="margin-top:0.75rem;">
+        Primero selecciona un libro o crea uno nuevo para activar el formulario.
+      </p>
+    {% endif %}
+  </form>
+{% endblock %}

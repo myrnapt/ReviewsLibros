@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Registro · Mistery Reviews{% endblock %}
+
+{% block content %}
+  <h1>Registro</h1>
+
+  <form method="post" action="{{ url_for('register') }}" class="card form">
+    <label>Usuario</label>
+    <input type="text" name="username" required minlength="3" maxlength="50">
+
+    <label>Contraseña</label>
+    <input type="password" name="password" required minlength="6" maxlength="200">
+
+    <button type="submit">Crear cuenta</button>
+
+    <p class="muted">
+      ¿Ya tienes cuenta? <a href="{{ url_for('login') }}">Inicia sesión</a>.
+    </p>
+  </form>
+{% endblock %}

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Mistery Reviews{% endblock %}</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="container">
+      <a class="brand" href="{{ url_for('index') }}"> 📖 MY LITTLE BOOKSHELF 📖 </a>
+
+      <nav class="nav">
+        <a href="{{ url_for('search') }}">Buscar libros</a>
+        <a href="{{ url_for('about') }}">About</a>
+
+        {% if current_user %}
+          <a href="{{ url_for('new_review') }}">Nueva review</a>
+          <a href="{{ url_for('profile') }}">Mi perfil</a>
+          <a class="muted" href="{{ url_for('logout') }}">Logout</a>
+        {% else %}
+          <a href="{{ url_for('login') }}">Login</a>
+          <a href="{{ url_for('register') }}">Registro</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    {% if msg %}
+      <div class="alert success">{{ msg }}</div>
+    {% endif %}
+    {% if error %}
+      <div class="alert error">{{ error }}</div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <small>Proyecto ASIR2 · Flask + MySQL</small>
+    </div>
+  </footer>
+</body>
+</html>

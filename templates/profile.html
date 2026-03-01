@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Mi perfil · Mistery Reviews{% endblock %}
+
+{% block content %}
+  <h1>Mi perfil</h1>
+
+  <section class="card">
+    <p><strong>Persona usuaria:</strong> {{ current_user.username }}</p>
+  </section>
+
+  <section>
+    <h2>Mis reviews</h2>
+
+    {% if my_reviews and my_reviews|length > 0 %}
+      <ul class="list">
+        {% for r in my_reviews %}
+          <li class="item">
+            <div class="book-card">
+              {% if r.book_image_filename %}
+                <img class="cover" src="{{ url_for('static', filename='uploads/' + r.book_image_filename) }}" alt="Portada">
+              {% else %}
+                <div class="cover placeholder">Sin imagen</div>
+              {% endif %}
+
+              <div class="book-info">
+                <div class="item-head">
+                  <a href="{{ url_for('book_detail', book_id=r.book_id) }}"><strong>{{ r.title }}</strong></a>
+                  <span class="muted">— {{ r.author }}</span>
+                </div>
+                <div>
+                  {% for i in range(1, 6) %}
+                    {% if i <= r.rating %}
+                      ⭐
+                    {% else %}
+                      ☆
+                    {% endif %}
+                  {% endfor %}
+                  · {{ r.created_at }}
+                </div>          
+                <p class="snippet">{{ r.review_text }}</p>
+                <form method="post" action="{{ url_for('delete_review', review_id=r.id) }}"
+                      onsubmit="return confirm('¿Eliminar esta review?');">
+                  <button type="submit">Eliminar</button>
+                </form>
+              </div>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted">Todavía no has publicado ninguna review.</p>
+      <p><a href="{{ url_for('new_review') }}">Crear mi primera review</a></p>
+    {% endif %}
+  </section>
+{% endblock %}

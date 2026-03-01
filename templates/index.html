@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Inicio · Mistery Reviews{% endblock %}
+
+{% block content %}
+  <h1>Reseñas de libros</h1>
+
+  <section class="card">
+    <h2>Buscar rápido</h2>
+    <form method="get" action="{{ url_for('search') }}" class="row">
+      <input type="text" name="q" placeholder="Título o autor..." value="{{ q or '' }}">
+      <button type="submit">Buscar</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Últimas reviews</h2>
+
+    {% if reviews and reviews|length > 0 %}
+      <ul class="list">
+        {% for r in reviews %}
+          <li class="item">
+            <div class="book-card">
+              {% if r.book_image_filename %}
+                <img class="cover" src="{{ url_for('static', filename='uploads/' + r.book_image_filename) }}" alt="Portada">
+              {% else %}
+                <div class="cover placeholder">Sin imagen</div>
+              {% endif %}
+
+              <div class="book-info">
+                <div class="item-head">
+                  <a href="{{ url_for('book_detail', book_id=r.book_id) }}"><strong>{{ r.title }}</strong></a>
+                  <span class="muted">— {{ r.author }}</span>
+                </div>
+                <div class="muted">
+                  por {{ r.username }} ·
+                    {% set rating = r.rating|int %}
+                    {% for i in range(1,6) %}
+                      {% if i <= rating %}⭐{% else %}☆{% endif %}
+                    {% endfor %}
+                  · {{ r.created_at }}
+                <p class="snippet">{{ r.review_text }}</p>
+              </div>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted">Aún no hay reviews publicadas.</p>
+    {% endif %}
+  </section>
+{% endblock %}

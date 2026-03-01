@@ -1,0 +1,246 @@
+/* ===== Paleta ===== */
+:root {
+  --bg: #f4f1ea;           /* beige claro */
+  --card: #ffffff;         /* blanco cálido */
+  --primary: #4f6f52;      /* verde desaturado */
+  --primary-dark: #3a5240; 
+  --accent: #8b6f47;       /* marrón tierra */
+  --text: #2f2f2f;
+  --muted: #6f6f6f;
+  --border: #ddd7cc;
+  --error: #b04a4a;
+  --success: #4a7a5c;
+}
+
+/* ===== Reset básico ===== */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* ===== Layout ===== */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.topbar {
+  background-color: var(--primary);
+  padding: 0.8rem 0;
+}
+
+.topbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.nav a {
+  color: white;
+  text-decoration: none;
+  margin-left: 1rem;
+  font-size: 0.95rem;
+}
+
+.nav a:hover {
+  text-decoration: underline;
+}
+
+.footer {
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+  padding: 1rem 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* ===== Tipografía ===== */
+h1, h2 {
+  color: var(--primary-dark);
+  margin-top: 0;
+}
+
+.lead {
+  font-size: 1.1rem;
+  color: var(--muted);
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.small {
+  font-size: 0.85rem;
+}
+
+/* ===== Cards ===== */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1.2rem;
+  margin: 1.2rem 0;
+}
+
+/* ===== Formularios ===== */
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-top: 0.8rem;
+  margin-bottom: 0.2rem;
+  font-weight: bold;
+  color: var(--primary-dark);
+}
+
+input,
+textarea,
+button {
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.6rem;
+  border-radius: 4px;
+}
+
+input,
+textarea {
+  border: 1px solid var(--border);
+  background-color: #faf8f4;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  background-color: #ffffff;
+}
+
+button {
+  margin-top: 1rem;
+  border: none;
+  background-color: var(--primary);
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: var(--primary-dark);
+}
+
+/* ===== Botones tipo enlace ===== */
+.button {
+  display: inline-block;
+  padding: 0.5rem 0.9rem;
+  background-color: var(--accent);
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.button:hover {
+  background-color: #725937;
+}
+
+/* ===== Listas ===== */
+.list {
+  list-style: none;
+  padding: 0;
+}
+
+.item {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.item-head {
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.snippet {
+  margin-top: 0.5rem;
+}
+
+/* ===== Alertas ===== */
+.alert {
+  padding: 0.8rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.alert.success {
+  background-color: #e6f1ea;
+  color: var(--success);
+  border: 1px solid #c8e0d2;
+}
+
+.alert.error {
+  background-color: #f5e6e6;
+  color: var(--error);
+  border: 1px solid #e4c7c7;
+}
+
+/* ===== Filas (buscador) ===== */
+.row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.row input {
+  flex: 1;
+}
+
+.book-card {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.cover {
+  width: 90px;
+  height: 130px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: #faf8f4;
+  object-fit: cover;
+}
+
+.cover.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.book-info {
+  flex: 1;
+  min-width: 0;
+}
