@@ -1,146 +1,66 @@
-📚 Little Bookshelf
+# Little Bookshelf
+**Proyecto ASIR2 · Flask + MySQL**
 
-Proyecto ASIR2 · Flask + MySQL
-
-Aplicación web desarrollada con Flask que permite gestionar libros y reseñas.
+Aplicación web desarrollada con Flask que permite gestionar libros y reseñas. 
 Incluye registro de personas usuarias, sistema de autenticación, búsqueda de libros, creación de reviews y visualización de rankings editoriales.
 
-🚀 Tecnologías utilizadas
+## Tecnologías utilizadas
+* Python 3.12
+* Flask
+* MySQL / MariaDB
+* HTML5 + CSS3
+* Jinja2
 
-Python 3.12
+## Instalación y ejecución en local
 
-Flask
+### 1. Clonar el repositorio
+```bash
+git clone [https://github.com/TU-USUARIO/TU-REPO.git](https://github.com/TU-USUARIO/TU-REPO.git) && cd TU-REPO
+```
+* `git clone`: Descarga el código fuente del repositorio especificado a tu máquina local.
+* `cd`: Cambia el directorio de trabajo actual a la carpeta del proyecto recién clonado.
 
-MySQL / MariaDB
-
-HTML5 + CSS3
-
-Jinja2
-
-📦 Instalación y ejecución en local
-1️⃣ Clonar el repositorio
-git clone https://github.com/TU-USUARIO/TU-REPO.git
-cd TU-REPO
-2️⃣ Crear entorno virtual
-python3 -m venv .venv
-source .venv/bin/activate
+### 2. Crear entorno virtual
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+```
+* `python3 -m venv`: Crea un entorno virtual aislado en la carpeta especificada para manejar las dependencias del proyecto sin afectar al sistema global.
+* `source`: Lee y ejecuta el script de activación en la shell actual, habilitando el entorno virtual.
 
 En Windows:
+```cmd
+python -m venv .venv && .venv\Scripts\activate
+```
+* `python -m venv`: Equivalente en Windows para crear el entorno.
+* `.venv\Scripts\activate`: Ejecutable que activa el entorno virtual en la terminal de Windows.
 
-.venv\Scripts\activate
-3️⃣ Instalar dependencias
+### 3. Instalar dependencias
+```bash
 pip install -r requirements.txt
-4️⃣ Configurar la base de datos
+```
+* `pip install -r`: Lee el archivo de texto especificado y descarga e instala todas las librerías y versiones listadas en él.
 
-Accede a MySQL o MariaDB:
+### 4. Configurar la base de datos
+```bash
+mysql -u root -p < schema.sql
+```
+* `mysql`: Llama al cliente de línea de comandos del gestor de base de datos.
+* `-u root`: Especifica que te conectas con el usuario administrador.
+* `-p`: Indica al sistema que solicite la contraseña de forma segura.
+* `< schema.sql`: Redirige el contenido del archivo SQL como entrada al comando, ejecutando su contenido (creación de base de datos, tablas e inserción de datos iniciales).
 
-mysql -u root -p
-
-Ejecuta el script de creación:
-
-SOURCE schema.sql;
-
-Esto creará:
-
-Base de datos projecte_myrna
-
-Tablas users, books, reviews
-
-Datos iniciales de prueba
-
-5️⃣ Configurar conexión en db.py
-
+### 5. Configurar conexión en db.py
 Verifica que los datos de conexión coincidan con tu entorno:
-
-def get_connection():
-    return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="TU_PASSWORD",
-        database="projecte_myrna"
-    )
-
+```python
+def get_connection(): return mysql.connector.connect(host="localhost", user="root", password="TU_PASSWORD", database="projecte_myrna")
+```
 Modifica usuario y contraseña según tu configuración local.
 
-6️⃣ Ejecutar la aplicación
+### 6. Ejecutar la aplicación
+```bash
 python app.py
+```
+* `python`: Llama al intérprete para ejecutar el script principal, el cual inicia el servidor web de desarrollo de Flask.
 
-La aplicación se ejecutará en:
+La aplicación se ejecutará en: `http://127.0.0.1:5000`
 
-http://127.0.0.1:5000
-👤 Usuarios de prueba
-
-Incluidos en el schema.sql:
-
-Usuario	Contraseña
-admin	123456
-luna	123456
-nico	123456
-vera	123456
-eric	123456
-iris	123456
-bruno	123456
-noa	123456
-alex	123456
-sara	123456
-marc	123456
-📂 Estructura del proyecto
-.
-├── app.py
-├── db.py
-├── schema.sql
-├── requirements.txt
-├── templates/
-│   ├── base.html
-│   ├── index.html
-│   ├── search.html
-│   ├── profile.html
-│   └── ...
-└── static/
-    ├── style.css
-    └── uploads/
-✨ Funcionalidades principales
-
-Registro e inicio de sesión
-
-Perfil con historial de reseñas
-
-Búsqueda por título o autor
-
-Listado alfabético A–Z de libros
-
-Top 10 editorial dinámico
-
-Subida de imágenes locales
-
-Sistema de reviews con puntuación 1–5
-
-Eliminación de reviews propias
-
-🧹 Archivos excluidos del repositorio
-
-El proyecto no incluye:
-
-.venv
-
-__pycache__
-
-Archivos temporales del sistema
-
-🔮 Posibles mejoras futuras
-
-Sistema de edición de libros
-
-Panel administrador
-
-Filtros avanzados por género y año
-
-Paginación en búsquedas
-
-Sistema de valoraciones agregadas
-
-Despliegue en entorno cloud
-
-📜 Licencia
-
-Proyecto académico desarrollado para ASIR2. Uso educativo.
