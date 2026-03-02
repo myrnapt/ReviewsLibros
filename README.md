@@ -64,3 +64,35 @@ python app.py
 
 La aplicación se ejecutará en: `http://127.0.0.1:5000`
 
+
+Como entrar a la db en GUI:
+sudo service mariadb status
+sudo service mariadb start
+sudo ss -lntp | grep 3306
+sudo mysql
+CREATE USER 'gui'@'localhost' IDENTIFIED BY 'UnaPasswordFuerte';
+GRANT ALL PRIVILEGES ON projecte_myrna.* TO 'gui'@'localhost';
+FLUSH PRIVILEGES; 
+
+o 
+
+CREATE USER 'gui'@'%' IDENTIFIED BY 'UnaPasswordFuerte';
+GRANT ALL PRIVILEGES ON projecte_myrna.* TO 'gui'@'%';
+FLUSH PRIVILEGES;
+
+Si aun así no conecta: revisa bind-address
+En WSL, abre:
+
+sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
+Si aun así no conecta: revisa bind-address
+En WSL, abre:
+
+sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
+
+sudo apt update
+sudo apt install -y php php-mysqli
+mkdir -p ~/adminer && cd ~/adminer
+wget https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1.php -O index.php
+php -S 0.0.0.0:8080
+http://localhost:8080
+
